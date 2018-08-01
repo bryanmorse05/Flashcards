@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
     public void Gameplay() {
 
         if (timerActive == false) {
-            new CountDownTimer(50000, 100) {
+            new CountDownTimer(60000, 100) {
                 public void onTick(long millisUntilFinished) {
 
                     String timeLeft = String.format(Locale.getDefault(), "%02d", timerValue);
@@ -134,6 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 myArray.add(correctAnswer + 1);
                 myArray.add(correctAnswer - 1);
                 myArray.add(correctAnswer - 2);
+                break;
             case 4 :
                 myArray.add(correctAnswer);
                 myArray.add(correctAnswer - 1);
@@ -145,6 +146,7 @@ public class MainActivity extends AppCompatActivity {
         Collections.shuffle(myArray);               //Shuffle the array so the answer will appear in a random location
 
         //Logs
+        Log.d("Equation:", String.valueOf(randomNumber1) + " " + String.valueOf(randomNumber2));
         Log.d("Shuffled", myArray.get(0) + " " + myArray.get(1) + " " + myArray.get(2) + " " + myArray.get(3));
         Log.d("AnswerShuffleValue", String.valueOf(answerSelectionBatch));
 
