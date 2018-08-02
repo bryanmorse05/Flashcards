@@ -1,9 +1,7 @@
 package com.example.bryan.flashcards;
 
 import android.content.DialogInterface;
-import android.net.sip.SipSession;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -13,13 +11,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class MainActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity {
 
     int answerSelectionBatch;          //Used to figure out which batch of random answers to give
     int randomNumber1, randomNumber2;
@@ -34,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_game);
 
         equation = findViewById(R.id.equation);
         result = findViewById(R.id.result);
@@ -80,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     timerActive = false;
-                    AlertDialog.Builder adb = new AlertDialog.Builder(MainActivity.this);
+                    AlertDialog.Builder adb = new AlertDialog.Builder(GameActivity.this);
                     adb.setTitle("TIME'S UP");
                     adb.setMessage("Your score: " + String.valueOf(score));
                     adb.setCancelable(false);                                                           //Prevents window from closing when clicking outside
@@ -88,13 +85,13 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             ResetGameBoard();
-                            MainActivity.this.recreate();
+                            GameActivity.this.recreate();
                         }
                     });
                     adb.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            MainActivity.this.finish();
+                            GameActivity.this.finish();
                         }
                     });
                     //Show and create dialogue window

@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Flashcards</string>
+    <string name="game_name">Rainy\'s Math Flashcards</string>
+    <string name="game_add">Addition</string>
+    <string name="game_sub">Subtraction</string>
+    <string name="game_mult">Multiplication</string>
 </resources>
