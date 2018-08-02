@@ -1,12 +1,12 @@
 package com.example.bryan.flashcards;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 
 public class TitleScreenActivity extends AppCompatActivity {
 
@@ -18,6 +18,8 @@ public class TitleScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title_screen);
 
+        difficulty = 2; //By default Moderate is selected
+
         additionGame = findViewById(R.id.additionGame);
 
         additionGame.setOnClickListener(new View.OnClickListener() {
@@ -26,9 +28,33 @@ public class TitleScreenActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(getApplicationContext(), GameActivity.class);
                 intent.putExtra("difficulty", difficulty);
-                getApplicationContext().startActivity(intent);
+                startActivity(intent);
+                Log.d("Passing Difficulty", String.valueOf(difficulty));
 
             }
         });
+    }
+
+    public void onDifficultyButtonClick(View view) {
+
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.beginnerButton:
+                if (checked) {
+                    difficulty = 1;
+                }
+                break;
+            case R.id.moderateButton:
+                if (checked) {
+                    difficulty = 2;
+                }
+                break;
+            case R.id.difficultButton:
+                if (checked) {
+                    difficulty = 3;
+                }
+                break;
+        }
     }
 }

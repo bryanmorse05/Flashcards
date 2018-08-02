@@ -10,7 +10,7 @@
         android:id="@+id/gameTitle"
         android:text="@string/game_name"
         android:textAlignment="center"
-        android:textSize="30dp"
+        android:textSize="30sp"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,7 +22,7 @@
         android:id="@+id/additionGame"
         android:text="@string/game_add"
         android:textAlignment="center"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:layout_width="150dp"
         android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@id/gameTitle"
@@ -34,7 +34,7 @@
         android:id="@+id/subtractGame"
         android:text="@string/game_sub"
         android:textAlignment="center"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:layout_width="150dp"
         android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@id/additionGame"
@@ -46,12 +46,45 @@
         android:id="@+id/multiplyGame"
         android:text="@string/game_mult"
         android:textAlignment="center"
-        android:textSize="14dp"
+        android:textSize="14sp"
         android:layout_width="150dp"
         android:layout_height="50dp"
         app:layout_constraintTop_toBottomOf="@id/subtractGame"
         android:layout_marginTop="50dp"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintLeft_toLeftOf="parent" />
+
+    <RadioGroup
+        android:id="@+id/difficultyButtons"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="100dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+        <RadioButton
+            android:id="@+id/beginnerButton"
+            android:text="Beginner"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onDifficultyButtonClick"/>
+        <RadioButton
+            android:id="@+id/moderateButton"
+            android:text="Moderate"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:checked="true"
+            android:onClick="onDifficultyButtonClick"/>
+        <RadioButton
+            android:id="@+id/difficultButton"
+            android:text="Difficult"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="onDifficultyButtonClick"/>
+
+    </RadioGroup>
 
 </android.support.constraint.ConstraintLayout>

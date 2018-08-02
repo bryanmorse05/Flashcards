@@ -1,6 +1,7 @@
 package com.example.bryan.flashcards;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -20,8 +21,8 @@ public class GameActivity extends AppCompatActivity {
 
     int answerSelectionBatch;          //Used to figure out which batch of random answers to give
     int randomNumber1, randomNumber2;
-    int level, score;
-    int level1Min, level1Max;
+    int difficulty, score;
+    int number1Min, number1Max;
     int timerValue;
     boolean timerActive;
 
@@ -47,12 +48,24 @@ public class GameActivity extends AppCompatActivity {
         timerValue = 0;
         nextQuestion.setText("BEGIN");
 
+        Bundle extras = getIntent().getExtras();
+        difficulty = extras.getInt("difficulty");       //Passing the difficulty level from the title screen
 
+        switch (difficulty) {
+            case 1:
+                number1Min = 1;
+                number1Max = 10;
+                break;
+            case 2:
+                number1Min = 10;
+                number1Max = 100;
+                break;
+            case 3:
+                number1Min = 1000;
+                number1Max = 10000;
+                break;
+        }
 
-
-
-        level1Min = 1;
-        level1Max = 10;
         timerActive = false;
 
         nextQuestion.setOnClickListener(new View.OnClickListener() {
@@ -67,7 +80,7 @@ public class GameActivity extends AppCompatActivity {
     public void Gameplay() {
 
         if (timerActive == false) {
-            new CountDownTimer(60000, 100) {
+            new CountDownTimer(10000, 100) {
                 public void onTick(long millisUntilFinished) {
 
                     String timeLeft = String.format(Locale.getDefault(), "%02d", timerValue);
@@ -85,13 +98,15 @@ public class GameActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             ResetGameBoard();
-                            GameActivity.this.recreate();
+                            Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                            startActivity(intent);
                         }
                     });
                     adb.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            GameActivity.this.finish();
+                            Intent intent = new Intent(getApplicationContext(), TitleScreenActivity.class);
+                            startActivity(intent);
                         }
                     });
                     //Show and create dialogue window
@@ -105,8 +120,8 @@ public class GameActivity extends AppCompatActivity {
         final int correctAnswer;
         final List<Integer> myArray = new ArrayList<Integer>(4);      //Creating an array to put the 4 possible answers in
 
-        randomNumber1 = EquationRandomizer(level1Min, level1Max);           //1st number for the equation
-        randomNumber2 = EquationRandomizer(level1Min, level1Max);           //2nd number for the equation
+        randomNumber1 = EquationRandomizer(number1Min, number1Max);           //1st number for the equation
+        randomNumber2 = EquationRandomizer(number1Min, number1Max);           //2nd number for the equation
         correctAnswer = randomNumber1 + randomNumber2;                      //Determining the correct answer
         answerSelectionBatch = EquationRandomizer(1, 4);
 
@@ -114,25 +129,25 @@ public class GameActivity extends AppCompatActivity {
 
         //Randomize the incorrect answers in relation to the correct value
         switch (answerSelectionBatch) {
-            case 1 :
+            case 1:
                 myArray.add(correctAnswer);
                 myArray.add(correctAnswer + 1);
                 myArray.add(correctAnswer + 2);
                 myArray.add(correctAnswer + 3);
                 break;
-            case 2 :
+            case 2:
                 myArray.add(correctAnswer);
                 myArray.add(correctAnswer + 1);
                 myArray.add(correctAnswer - 1);
                 myArray.add(correctAnswer + 2);
                 break;
-            case 3 :
+            case 3:
                 myArray.add(correctAnswer);
                 myArray.add(correctAnswer + 1);
                 myArray.add(correctAnswer - 1);
                 myArray.add(correctAnswer - 2);
                 break;
-            case 4 :
+            case 4:
                 myArray.add(correctAnswer);
                 myArray.add(correctAnswer - 1);
                 myArray.add(correctAnswer - 2);
@@ -147,7 +162,7 @@ public class GameActivity extends AppCompatActivity {
         Log.d("Shuffled", myArray.get(0) + " " + myArray.get(1) + " " + myArray.get(2) + " " + myArray.get(3));
         Log.d("AnswerShuffleValue", String.valueOf(answerSelectionBatch));
 
-        
+
         answerChoice1.setText(myArray.get(0).toString());
         answerChoice2.setText(myArray.get(1).toString());
         answerChoice3.setText(myArray.get(2).toString());
@@ -161,8 +176,7 @@ public class GameActivity extends AppCompatActivity {
                     score += 1;
                     playerScore.setText(String.valueOf(score));
                     Gameplay();
-                }
-                else {
+                } else {
                     result.setText("WRONG");
                 }
             }
@@ -176,8 +190,7 @@ public class GameActivity extends AppCompatActivity {
                     score += 1;
                     playerScore.setText(String.valueOf(score));
                     Gameplay();
-                }
-                else {
+                } else {
                     result.setText("WRONG");
                 }
             }
@@ -191,8 +204,7 @@ public class GameActivity extends AppCompatActivity {
                     score += 1;
                     playerScore.setText(String.valueOf(score));
                     Gameplay();
-                }
-                else {
+                } else {
                     result.setText("WRONG");
                 }
             }
@@ -206,14 +218,11 @@ public class GameActivity extends AppCompatActivity {
                     score += 1;
                     playerScore.setText(String.valueOf(score));
                     Gameplay();
-                }
-                else {
+                } else {
                     result.setText("WRONG");
                 }
             }
         });
-
-
     }
 
     //Randomizing the number to use in the equation
