@@ -21,16 +21,28 @@ public class TitleScreenActivity extends AppCompatActivity {
         difficulty = 2; //By default Moderate is selected
 
         additionGame = findViewById(R.id.additionGame);
+        subtractGame = findViewById(R.id.subtractGame);
 
         additionGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                Intent intent = new Intent(getApplicationContext(), GameAdditionActivity.class);
                 intent.putExtra("difficulty", difficulty);
                 startActivity(intent);
                 Log.d("Passing Difficulty", String.valueOf(difficulty));
 
+            }
+        });
+
+        subtractGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(getApplicationContext(), GameSubtractionActivity.class);
+                intent.putExtra("difficulty", difficulty);
+                startActivity(intent);
+                Log.d("Passing Difficulty", String.valueOf(difficulty));
             }
         });
     }

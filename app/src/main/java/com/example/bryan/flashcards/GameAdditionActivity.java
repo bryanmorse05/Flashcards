@@ -17,17 +17,19 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class GameActivity extends AppCompatActivity {
+public class GameAdditionActivity extends AppCompatActivity {
 
     int answerSelectionBatch;          //Used to figure out which batch of random answers to give
-    int randomNumber1, randomNumber2;
+    int randomNumber1, randomNumber2, correctAnswer;
     int difficulty, score;
     int number1Min, number1Max;
     int timerValue;
     boolean timerActive;
 
-    TextView equation, result, playerScore, timer;
-    Button answerChoice1, answerChoice2, answerChoice3, answerChoice4, nextQuestion;
+    final int gameTimer = 60000;        //Game timer
+
+    TextView result, playerScore, timer;
+    Button equation, answerChoice1, answerChoice2, answerChoice3, answerChoice4, nextQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,12 +46,19 @@ public class GameActivity extends AppCompatActivity {
         answerChoice4 = findViewById(R.id.answerChoice4);
         nextQuestion = findViewById(R.id.nextQuestion);
 
-        score = 0;
-        timerValue = 0;
-        nextQuestion.setText("BEGIN");
+        if (savedInstanceState == null) {
 
-        Bundle extras = getIntent().getExtras();
-        difficulty = extras.getInt("difficulty");       //Passing the difficulty level from the title screen
+            Bundle extras = getIntent().getExtras();
+            if (extras == null) {
+                Log.d("Difficulty Pass", "Failed");
+            } else {
+                difficulty = extras.getInt("difficulty");       //Passing the difficulty level from the title screen
+            }
+        }
+        else {
+            //Crashes when switching to landscape
+            difficulty = (Integer) savedInstanceState.getSerializable("difficulty");
+        }
 
         switch (difficulty) {
             case 1:
@@ -68,19 +77,16 @@ public class GameActivity extends AppCompatActivity {
 
         timerActive = false;
 
-        nextQuestion.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                nextQuestion.setText("NEXT");
-                Gameplay();
-            }
-        });
+        ResetGameBoard();
+
     }
 
     public void Gameplay() {
 
+        equation.setClickable(false);
+
         if (timerActive == false) {
-            new CountDownTimer(10000, 100) {
+            new CountDownTimer(gameTimer, 100) {
                 public void onTick(long millisUntilFinished) {
 
                     String timeLeft = String.format(Locale.getDefault(), "%02d", timerValue);
@@ -90,7 +96,7 @@ public class GameActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     timerActive = false;
-                    AlertDialog.Builder adb = new AlertDialog.Builder(GameActivity.this);
+                    AlertDialog.Builder adb = new AlertDialog.Builder(GameAdditionActivity.this);
                     adb.setTitle("TIME'S UP");
                     adb.setMessage("Your score: " + String.valueOf(score));
                     adb.setCancelable(false);                                                           //Prevents window from closing when clicking outside
@@ -98,8 +104,6 @@ public class GameActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
                             ResetGameBoard();
-                            Intent intent = new Intent(getApplicationContext(), GameActivity.class);
-                            startActivity(intent);
                         }
                     });
                     adb.setNegativeButton("Close", new DialogInterface.OnClickListener() {
@@ -117,8 +121,8 @@ public class GameActivity extends AppCompatActivity {
             timerActive = true;
         }
 
-        final int correctAnswer;
-        final List<Integer> myArray = new ArrayList<Integer>(4);      //Creating an array to put the 4 possible answers in
+        //final int correctAnswer;
+        final List<Integer> myArray = new ArrayList<>(4);      //Creating an array to put the 4 possible answers in
 
         randomNumber1 = EquationRandomizer(number1Min, number1Max);           //1st number for the equation
         randomNumber2 = EquationRandomizer(number1Min, number1Max);           //2nd number for the equation
@@ -128,32 +132,99 @@ public class GameActivity extends AppCompatActivity {
         equation.setText(randomNumber1 + " + " + randomNumber2);            //Showing text of the equation
 
         //Randomize the incorrect answers in relation to the correct value
-        switch (answerSelectionBatch) {
+        switch (difficulty) {
+
+            //Easy difficulty
             case 1:
-                myArray.add(correctAnswer);
-                myArray.add(correctAnswer + 1);
-                myArray.add(correctAnswer + 2);
-                myArray.add(correctAnswer + 3);
+                switch (answerSelectionBatch) {
+                    case 1:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer + 1);
+                        myArray.add(correctAnswer + 2);
+                        myArray.add(correctAnswer + 3);
+                        break;
+                    case 2:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer + 1);
+                        myArray.add(correctAnswer - 1);
+                        myArray.add(correctAnswer + 2);
+                        break;
+                    case 3:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer + 1);
+                        myArray.add(correctAnswer - 1);
+                        myArray.add(correctAnswer - 2);
+                        break;
+                    case 4:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer - 1);
+                        myArray.add(correctAnswer - 2);
+                        myArray.add(correctAnswer - 3);
+                        break;
+                }
                 break;
+
+            //Moderate difficulty
             case 2:
-                myArray.add(correctAnswer);
-                myArray.add(correctAnswer + 1);
-                myArray.add(correctAnswer - 1);
-                myArray.add(correctAnswer + 2);
+                switch (answerSelectionBatch) {
+                    case 1:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer + 10);
+                        myArray.add(correctAnswer + 20);
+                        myArray.add(correctAnswer + 30);
+                        break;
+                    case 2:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer + 10);
+                        myArray.add(correctAnswer - 10);
+                        myArray.add(correctAnswer + 20);
+                        break;
+                    case 3:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer + 10);
+                        myArray.add(correctAnswer - 10);
+                        myArray.add(correctAnswer - 20);
+                        break;
+                    case 4:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer - 10);
+                        myArray.add(correctAnswer - 20);
+                        myArray.add(correctAnswer - 30);
+                        break;
+                }
                 break;
+
+            //Hardest difficulty
             case 3:
-                myArray.add(correctAnswer);
-                myArray.add(correctAnswer + 1);
-                myArray.add(correctAnswer - 1);
-                myArray.add(correctAnswer - 2);
-                break;
-            case 4:
-                myArray.add(correctAnswer);
-                myArray.add(correctAnswer - 1);
-                myArray.add(correctAnswer - 2);
-                myArray.add(correctAnswer - 3);
+                switch (answerSelectionBatch) {
+                    case 1:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer + 100);
+                        myArray.add(correctAnswer + 200);
+                        myArray.add(correctAnswer + 300);
+                        break;
+                    case 2:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer + 100);
+                        myArray.add(correctAnswer - 100);
+                        myArray.add(correctAnswer + 200);
+                        break;
+                    case 3:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer + 100);
+                        myArray.add(correctAnswer - 100);
+                        myArray.add(correctAnswer - 200);
+                        break;
+                    case 4:
+                        myArray.add(correctAnswer);
+                        myArray.add(correctAnswer - 100);
+                        myArray.add(correctAnswer - 200);
+                        myArray.add(correctAnswer - 300);
+                        break;
+                }
                 break;
         }
+
 
         Collections.shuffle(myArray);               //Shuffle the array so the answer will appear in a random location
 
@@ -226,19 +297,32 @@ public class GameActivity extends AppCompatActivity {
     }
 
     //Randomizing the number to use in the equation
-    public int EquationRandomizer(int min, int max) {
-        return new Random().nextInt((max-min) + 1) + min;
+    public int EquationRandomizer ( int min, int max){
+        return new Random().nextInt((max - min) + 1) + min;
     }
 
-    public void AnswerRandomizer(int answer) {
-
-    }
-
+    //Setting everything on the game board back to 0, or empty, or blank
     public void ResetGameBoard() {
         timerValue = 0;
         score = 0;
-        timer.setText(String.valueOf(0));
-        playerScore.setText(String.valueOf(0));
+        equation.setText("Press here to begin");
+        timer.setText(String.valueOf(0));           //for debugging
+        playerScore.setText(String.valueOf(0));     //for debugging
+        answerChoice1.setText("");
+        answerChoice2.setText("");
+        answerChoice3.setText("");
+        answerChoice4.setText("");
+        result.setText("");
+        nextQuestion.setText("");
+
+        equation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                nextQuestion.setText("NEXT");
+                Gameplay();
+            }
+        });
     }
+
 }
 
