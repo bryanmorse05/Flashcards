@@ -10,8 +10,8 @@ import android.widget.RadioButton;
 
 public class TitleScreenActivity extends AppCompatActivity {
 
-    Button additionGame, subtractGame, MultGame;
-    int difficulty;
+    Button additionGame, subtractGame, multiplicationGame;
+    int difficulty, gameType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,15 +22,20 @@ public class TitleScreenActivity extends AppCompatActivity {
 
         additionGame = findViewById(R.id.additionGame);
         subtractGame = findViewById(R.id.subtractGame);
+        multiplicationGame = findViewById(R.id.multiplyGame);
 
         additionGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), GameAdditionActivity.class);
+                gameType = 1;
+
+                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
                 intent.putExtra("difficulty", difficulty);
+                intent.putExtra("gameType", gameType);
                 startActivity(intent);
                 Log.d("Passing Difficulty", String.valueOf(difficulty));
+                Log.d("Passing gameType", String.valueOf(gameType));
 
             }
         });
@@ -39,10 +44,30 @@ public class TitleScreenActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                Intent intent = new Intent(getApplicationContext(), GameSubtractionActivity.class);
+                gameType = 2;
+
+                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
                 intent.putExtra("difficulty", difficulty);
+                intent.putExtra("gameType", gameType);
                 startActivity(intent);
                 Log.d("Passing Difficulty", String.valueOf(difficulty));
+                Log.d("Passing gameType", String.valueOf(gameType));
+
+            }
+        });
+
+        multiplicationGame.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                gameType = 3;
+
+                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                intent.putExtra("difficulty", difficulty);
+                intent.putExtra("gameType", gameType);
+                startActivity(intent);
+                Log.d("Passing Difficulty", String.valueOf(difficulty));
+                Log.d("Passing gameType", String.valueOf(gameType));
             }
         });
     }
