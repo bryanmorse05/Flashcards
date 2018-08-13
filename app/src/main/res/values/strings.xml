@@ -5,4 +5,9 @@
     <string name="game_sub">Subtraction</string>
     <string name="game_mult">Multiplication</string>
     <string name="begin_game_button">Press here to begin</string>
+    <string name="game_skip">SKIP</string>
+    <string name="difficulty_simple">Simple</string>
+    <string name="difficulty_moderate">Moderate</string>
+    <string name="difficulty_brutal">Brutal</string>
+    <string name="difficulty_text">Select your Difficulty:</string>
 </resources>

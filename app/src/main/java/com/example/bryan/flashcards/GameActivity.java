@@ -1,5 +1,6 @@
 package com.example.bryan.flashcards;
 
+import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.CountDownTimer;
@@ -7,9 +8,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,12 +24,12 @@ public class GameActivity extends AppCompatActivity {
 
     boolean timerActive;
 
-    final int gameTimer = 10000;        //Game timer
+    final int gameTimer = 5000;        //Game timer
 
     GameData gameData = new GameData(); //Class for the game
 
     TextView result;                    //Right or wrong
-    TextView playerScore, timer;        //For debugging pruposes, will remove
+    TextView playerScore, timer;        //For debugging purposes, will remove
     Button equation, answerChoice1, answerChoice2, answerChoice3, answerChoice4, nextQuestion;
 
     @Override
@@ -44,6 +47,9 @@ public class GameActivity extends AppCompatActivity {
         answerChoice4 = findViewById(R.id.answerChoice4);
         nextQuestion = findViewById(R.id.nextQuestion);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Home");
+
         if (savedInstanceState == null) {
 
             Bundle extras = getIntent().getExtras();
@@ -60,7 +66,15 @@ public class GameActivity extends AppCompatActivity {
             gameData.setGameType((Integer) savedInstanceState.getSerializable("gameType"));
         }
 
-        gameData.additionDifficulty(gameData.difficulty);
+        if (gameData.gameType == 1) {
+            gameData.additionDifficulty(gameData.difficulty);
+        }
+        else if (gameData.gameType == 2) {
+            gameData.subtractionDifficulty(gameData.difficulty);
+        }
+        else if (gameData.gameType == 3) {
+            gameData.multiplicationDifficulty(gameData.difficulty);
+        }
 
         timerActive = false;
 
@@ -71,6 +85,8 @@ public class GameActivity extends AppCompatActivity {
     public void Gameplay() {
 
         equation.setClickable(false);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (timerActive == false) {
             new CountDownTimer(gameTimer, 100) {
@@ -112,8 +128,14 @@ public class GameActivity extends AppCompatActivity {
         //final int correctAnswer;
         final List<Integer> myArray = new ArrayList<>(4);      //Creating an array to put the 4 possible answers in
 
-        gameData.randomNumber1 = EquationRandomizer(gameData.number1Min, gameData.number1Max);           //1st number for the equation
-        gameData.randomNumber2 = EquationRandomizer(gameData.number1Min, gameData.number1Max);           //2nd number for the equation
+        if (gameData.gameType == 3 && gameData.difficulty == 2) {
+            gameData.randomNumber1 = EquationRandomizer(gameData.number1Min, gameData.number1Max);           //1st number for the equation
+            gameData.randomNumber2 = EquationRandomizer(gameData.number1Min, gameData.number1Max) + 10;           //2nd number for the equation
+        }
+        else {
+            gameData.randomNumber1 = EquationRandomizer(gameData.number1Min, gameData.number1Max);           //1st number for the equation
+            gameData.randomNumber2 = EquationRandomizer(gameData.number1Min, gameData.number1Max);           //2nd number for the equation
+        }
 
         switch (gameData.gameType) {
             case 1:
@@ -321,6 +343,15 @@ public class GameActivity extends AppCompatActivity {
                 }
             }
         });
+
+        nextQuestion.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Gameplay();
+            }
+        });
+
+        onBackPressed();
     }
 
     //Randomizing the number to use in the equation
@@ -346,10 +377,21 @@ public class GameActivity extends AppCompatActivity {
         equation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                nextQuestion.setText("NEXT");
+                nextQuestion.setText("SKIP");
                 Gameplay();
             }
         });
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        Intent myIntent = new Intent(getApplicationContext(), TitleScreenActivity.class);
+        startActivityForResult(myIntent, 0);
+        return true;
+
+    }
+
+    public void onBackPressed() {
+        
     }
 
 }

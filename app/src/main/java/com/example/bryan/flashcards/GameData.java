@@ -155,4 +155,22 @@ public class GameData {
         return correctAnswer;
     }
 
+    public void multiplicationDifficulty(int difficulty) {
+
+        switch (difficulty) {
+            case 1:
+                number1Min = 1;
+                number1Max = 9;
+                break;
+            case 2:
+                number1Min = 1;
+                number1Max = 10;
+                break;
+            case 3:
+                number1Min = 10;
+                number1Max = 100;
+                break;
+        }
+    }
+
 }

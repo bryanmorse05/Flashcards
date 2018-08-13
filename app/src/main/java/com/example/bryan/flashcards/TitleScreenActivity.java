@@ -87,7 +87,7 @@ public class TitleScreenActivity extends AppCompatActivity {
                     difficulty = 2;
                 }
                 break;
-            case R.id.difficultButton:
+            case R.id.brutalButton:
                 if (checked) {
                     difficulty = 3;
                 }
