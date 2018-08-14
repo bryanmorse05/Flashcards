@@ -9,10 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GameActivity" android:parentActivityName=".TitleScreenActivity">
+        <activity android:name=".Game_Activity"
+                  android:parentActivityName=".TitleScreen_Activity"
+                  >
 
         </activity>
-        <activity android:name=".TitleScreenActivity">
+        <activity android:name=".TitleScreen_Activity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

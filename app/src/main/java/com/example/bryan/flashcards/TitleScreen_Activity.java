@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
 
-public class TitleScreenActivity extends AppCompatActivity {
+public class TitleScreen_Activity extends AppCompatActivity {
 
     Button additionGame, subtractGame, multiplicationGame;
     int difficulty, gameType;
@@ -30,7 +30,7 @@ public class TitleScreenActivity extends AppCompatActivity {
 
                 gameType = 1;
 
-                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Game_Activity.class);
                 intent.putExtra("difficulty", difficulty);
                 intent.putExtra("gameType", gameType);
                 startActivity(intent);
@@ -46,7 +46,7 @@ public class TitleScreenActivity extends AppCompatActivity {
 
                 gameType = 2;
 
-                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Game_Activity.class);
                 intent.putExtra("difficulty", difficulty);
                 intent.putExtra("gameType", gameType);
                 startActivity(intent);
@@ -62,7 +62,7 @@ public class TitleScreenActivity extends AppCompatActivity {
 
                 gameType = 3;
 
-                Intent intent = new Intent(getApplicationContext(), GameActivity.class);
+                Intent intent = new Intent(getApplicationContext(), Game_Activity.class);
                 intent.putExtra("difficulty", difficulty);
                 intent.putExtra("gameType", gameType);
                 startActivity(intent);
@@ -93,5 +93,10 @@ public class TitleScreenActivity extends AppCompatActivity {
                 }
                 break;
         }
+    }
+
+    public void onBackPressed() {
+        finish();
+
     }
 }

@@ -1,8 +1,8 @@
 package com.example.bryan.flashcards;
 
-import android.app.ActionBar;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +12,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,11 +19,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Random;
 
-public class GameActivity extends AppCompatActivity {
+public class Game_Activity extends AppCompatActivity {
+
+    CountDownTimer countDownTimer;
 
     boolean timerActive;
 
-    final int gameTimer = 5000;        //Game timer
+    final int gameTimer = 10000;        //Game timer
 
     GameData gameData = new GameData(); //Class for the game
 
@@ -62,8 +63,8 @@ public class GameActivity extends AppCompatActivity {
         }
         else {
             //Crashes when switching to landscape
-            gameData.setDifficulty((Integer) savedInstanceState.getSerializable("difficulty"));
-            gameData.setGameType((Integer) savedInstanceState.getSerializable("gameType"));
+//            gameData.setDifficulty((Integer) savedInstanceState.getSerializable("difficulty"));
+//            gameData.setGameType((Integer) savedInstanceState.getSerializable("gameType"));
         }
 
         if (gameData.gameType == 1) {
@@ -89,7 +90,7 @@ public class GameActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (timerActive == false) {
-            new CountDownTimer(gameTimer, 100) {
+            countDownTimer = new CountDownTimer(gameTimer, 100) {
                 public void onTick(long millisUntilFinished) {
 
                     String timeLeft = String.format(Locale.getDefault(), "%02d", gameData.timerValue);
@@ -99,7 +100,7 @@ public class GameActivity extends AppCompatActivity {
 
                 public void onFinish() {
                     timerActive = false;
-                    AlertDialog.Builder adb = new AlertDialog.Builder(GameActivity.this);
+                    AlertDialog.Builder adb = new AlertDialog.Builder(Game_Activity.this);
                     adb.setTitle("TIME'S UP");
                     adb.setMessage("Your score: " + String.valueOf(gameData.getScore()) +
                             "\nIncorrect: " + String.valueOf(gameData.getWrong()));
@@ -113,7 +114,7 @@ public class GameActivity extends AppCompatActivity {
                     adb.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(getApplicationContext(), TitleScreenActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), TitleScreen_Activity.class);
                             startActivity(intent);
                         }
                     });
@@ -351,7 +352,7 @@ public class GameActivity extends AppCompatActivity {
             }
         });
 
-        onBackPressed();
+        //onBackPressed();
     }
 
     //Randomizing the number to use in the equation
@@ -384,15 +385,20 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-        Intent myIntent = new Intent(getApplicationContext(), TitleScreenActivity.class);
-        startActivityForResult(myIntent, 0);
-        return true;
 
+        finish();
+        return true;
     }
 
     public void onBackPressed() {
-        
+        countDownTimer.cancel();
+        super.onBackPressed();
+        finish();
     }
 
+//    @Override
+//    public void onConfigurationChanged(Configuration newConfig) {
+//        super.onConfigurationChanged(newConfig);
+//    }
 }
 
