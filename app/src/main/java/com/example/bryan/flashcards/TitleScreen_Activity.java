@@ -1,28 +1,49 @@
 package com.example.bryan.flashcards;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 
 public class TitleScreen_Activity extends AppCompatActivity {
 
     Button additionGame, subtractGame, multiplicationGame;
     int difficulty, gameType;
+    RadioGroup difficultyButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_title_screen);
 
-        difficulty = 2; //By default Moderate is selected
-
         additionGame = findViewById(R.id.additionGame);
         subtractGame = findViewById(R.id.subtractGame);
         multiplicationGame = findViewById(R.id.multiplyGame);
+        difficultyButtons = findViewById(R.id.difficultyButtons);
+
+        difficulty = 1;     //By default
+
+        SharedPreferences prefs = getSharedPreferences("MATH_FLASHCARDS", MODE_PRIVATE);
+        difficulty = prefs.getInt("difficulty", 0);
+
+
+        switch (difficulty) {
+            case 1:
+                difficultyButtons.check(R.id.beginnerButton);
+                break;
+            case 2:
+                difficultyButtons.check(R.id.moderateButton);
+                break;
+            case 3:
+                difficultyButtons.check(R.id.brutalButton);
+                break;
+        }
+
 
         additionGame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -74,6 +95,8 @@ public class TitleScreen_Activity extends AppCompatActivity {
 
     public void onDifficultyButtonClick(View view) {
 
+        SharedPreferences.Editor editor = getSharedPreferences("MATH_FLASHCARDS", MODE_PRIVATE).edit();
+
         boolean checked = ((RadioButton) view).isChecked();
 
         switch(view.getId()) {
@@ -93,6 +116,9 @@ public class TitleScreen_Activity extends AppCompatActivity {
                 }
                 break;
         }
+        editor.putInt("difficulty", difficulty);
+        editor.apply();
+        editor.commit();
     }
 
     public void onBackPressed() {

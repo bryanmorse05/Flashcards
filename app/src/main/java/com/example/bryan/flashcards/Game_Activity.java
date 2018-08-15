@@ -291,11 +291,12 @@ public class Game_Activity extends AppCompatActivity {
                 if (myArray.get(0) == gameData.correctAnswer) {
                     result.setText("CORRECT");
                     gameData.score += 1;
-                    playerScore.setText(String.valueOf(gameData.score));
+//                    playerScore.setText(String.valueOf(gameData.score));
                     Gameplay();
                 } else {
                     result.setText("WRONG");
                     gameData.wrong += 1;
+                    Gameplay();
                 }
             }
         });
@@ -306,11 +307,12 @@ public class Game_Activity extends AppCompatActivity {
                 if (myArray.get(1) == gameData.correctAnswer) {
                     result.setText("CORRECT");
                     gameData.score += 1;
-                    playerScore.setText(String.valueOf(gameData.score));
+//                    playerScore.setText(String.valueOf(gameData.score));
                     Gameplay();
                 } else {
                     result.setText("WRONG");
                     gameData.wrong += 1;
+                    Gameplay();
                 }
             }
         });
@@ -321,11 +323,12 @@ public class Game_Activity extends AppCompatActivity {
                 if (myArray.get(2) == gameData.correctAnswer) {
                     result.setText("CORRECT");
                     gameData.score += 1;
-                    playerScore.setText(String.valueOf(gameData.score));
+//                    playerScore.setText(String.valueOf(gameData.score));
                     Gameplay();
                 } else {
                     result.setText("WRONG");
                     gameData.wrong += 1;
+                    Gameplay();
                 }
             }
         });
@@ -336,11 +339,12 @@ public class Game_Activity extends AppCompatActivity {
                 if (myArray.get(3) == gameData.correctAnswer) {
                     result.setText("CORRECT");
                     gameData.score += 1;
-                    playerScore.setText(String.valueOf(gameData.score));
+//                    playerScore.setText(String.valueOf(gameData.score));
                     Gameplay();
                 } else {
                     result.setText("WRONG");
                     gameData.wrong += 1;
+                    Gameplay();
                 }
             }
         });
@@ -363,42 +367,61 @@ public class Game_Activity extends AppCompatActivity {
     //Setting everything on the game board back to 0, or empty, or blank
     public void ResetGameBoard() {
         gameData.setTimerValue(0);
-        gameData.setScore(0);
-        gameData.setWrong(0);
+//        gameData.setScore(0);
+//        gameData.setWrong(0);
         equation.setText("Press here to begin");
         timer.setText(String.valueOf(0));           //for debugging
-        playerScore.setText(String.valueOf(0));     //for debugging
+//        playerScore.setText(String.valueOf(0));     //for debugging
         answerChoice1.setText("");
+        answerChoice1.setVisibility(View.INVISIBLE);
+        answerChoice1.setClickable(false);
         answerChoice2.setText("");
+        answerChoice2.setVisibility(View.INVISIBLE);
+        answerChoice2.setClickable(false);
         answerChoice3.setText("");
+        answerChoice3.setVisibility(View.INVISIBLE);
+        answerChoice3.setClickable(false);
         answerChoice4.setText("");
+        answerChoice4.setVisibility(View.INVISIBLE);
+        answerChoice4.setClickable(false);
         result.setText("");
         nextQuestion.setText("");
+        nextQuestion.setVisibility(View.INVISIBLE);
+        nextQuestion.setClickable(false);
 
         equation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 nextQuestion.setText("SKIP");
+                answerChoice1.setVisibility(View.VISIBLE);
+                answerChoice1.setClickable(true);
+                answerChoice2.setVisibility(View.VISIBLE);
+                answerChoice2.setClickable(true);
+                answerChoice3.setVisibility(View.VISIBLE);
+                answerChoice3.setClickable(true);
+                answerChoice4.setVisibility(View.VISIBLE);
+                answerChoice4.setClickable(true);
+                nextQuestion.setVisibility(View.VISIBLE);
+                nextQuestion.setClickable(true);
                 Gameplay();
             }
         });
     }
 
     public boolean onOptionsItemSelected(MenuItem item){
-
+        if (timerActive == true) {
+            countDownTimer.cancel();
+        }
         finish();
-        return true;
+        return super.onOptionsItemSelected(item);
     }
 
     public void onBackPressed() {
-        countDownTimer.cancel();
+        if (timerActive == true) {
+            countDownTimer.cancel();
+        }
         super.onBackPressed();
         finish();
     }
-
-//    @Override
-//    public void onConfigurationChanged(Configuration newConfig) {
-//        super.onConfigurationChanged(newConfig);
-//    }
 }
 

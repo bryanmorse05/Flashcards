@@ -79,6 +79,7 @@
             android:text="@string/difficulty_simple"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:checked="true"
             android:onClick="onDifficultyButtonClick"/>
         <RadioButton
             android:id="@+id/moderateButton"
@@ -87,7 +88,6 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
-            android:checked="true"
             android:onClick="onDifficultyButtonClick"/>
         <RadioButton
             android:id="@+id/brutalButton"

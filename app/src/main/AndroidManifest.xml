@@ -11,10 +11,11 @@
         android:theme="@style/AppTheme">
         <activity android:name=".Game_Activity"
                   android:parentActivityName=".TitleScreen_Activity"
-                  >
+                  android:configChanges="keyboardHidden|orientation|screenSize">
 
         </activity>
-        <activity android:name=".TitleScreen_Activity">
+        <activity android:name=".TitleScreen_Activity"
+                  android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
