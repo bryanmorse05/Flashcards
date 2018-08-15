@@ -13,8 +13,8 @@ import android.widget.RadioGroup;
 public class TitleScreen_Activity extends AppCompatActivity {
 
     Button additionGame, subtractGame, multiplicationGame;
-    int difficulty, gameType;
-    RadioGroup difficultyButtons;
+    int difficulty, gameType, timerLength;
+    RadioGroup difficultyButtons, timerButtons;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,13 +25,15 @@ public class TitleScreen_Activity extends AppCompatActivity {
         subtractGame = findViewById(R.id.subtractGame);
         multiplicationGame = findViewById(R.id.multiplyGame);
         difficultyButtons = findViewById(R.id.difficultyButtons);
+        timerButtons = findViewById(R.id.timerButtons);
 
-        difficulty = 1;     //By default
-
+        //Load up the saved file to see which radio button is selected
         SharedPreferences prefs = getSharedPreferences("MATH_FLASHCARDS", MODE_PRIVATE);
-        difficulty = prefs.getInt("difficulty", 0);
+        difficulty = prefs.getInt("difficulty", 1); //Defaults to Simple
+        timerLength = prefs.getInt("timerLength", 30);
 
 
+        //Check the intended DIFFICULTY radio button
         switch (difficulty) {
             case 1:
                 difficultyButtons.check(R.id.beginnerButton);
@@ -44,7 +46,20 @@ public class TitleScreen_Activity extends AppCompatActivity {
                 break;
         }
 
+        //Check the intended TIMER radio button
+        switch (timerLength) {
+            case 30:
+                timerButtons.check(R.id.thirtySecButton);
+                break;
+            case 45:
+                timerButtons.check(R.id.fortyFiveSecButton);
+                break;
+            case 60:
+                timerButtons.check(R.id.sixtySecButton);
+                break;
+        }
 
+        //ADDITION
         additionGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -54,6 +69,7 @@ public class TitleScreen_Activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Game_Activity.class);
                 intent.putExtra("difficulty", difficulty);
                 intent.putExtra("gameType", gameType);
+                intent.putExtra("timerLength", timerLength);
                 startActivity(intent);
                 Log.d("Passing Difficulty", String.valueOf(difficulty));
                 Log.d("Passing gameType", String.valueOf(gameType));
@@ -61,6 +77,7 @@ public class TitleScreen_Activity extends AppCompatActivity {
             }
         });
 
+        //SUBTRACTION
         subtractGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,6 +87,7 @@ public class TitleScreen_Activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Game_Activity.class);
                 intent.putExtra("difficulty", difficulty);
                 intent.putExtra("gameType", gameType);
+                intent.putExtra("timerLength", timerLength);
                 startActivity(intent);
                 Log.d("Passing Difficulty", String.valueOf(difficulty));
                 Log.d("Passing gameType", String.valueOf(gameType));
@@ -77,6 +95,7 @@ public class TitleScreen_Activity extends AppCompatActivity {
             }
         });
 
+        //MULTIPLICATION
         multiplicationGame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -86,6 +105,7 @@ public class TitleScreen_Activity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), Game_Activity.class);
                 intent.putExtra("difficulty", difficulty);
                 intent.putExtra("gameType", gameType);
+                intent.putExtra("timerLength", timerLength);
                 startActivity(intent);
                 Log.d("Passing Difficulty", String.valueOf(difficulty));
                 Log.d("Passing gameType", String.valueOf(gameType));
@@ -93,6 +113,7 @@ public class TitleScreen_Activity extends AppCompatActivity {
         });
     }
 
+    //Whenever one of the difficulty radio buttons is selected
     public void onDifficultyButtonClick(View view) {
 
         SharedPreferences.Editor editor = getSharedPreferences("MATH_FLASHCARDS", MODE_PRIVATE).edit();
@@ -121,8 +142,36 @@ public class TitleScreen_Activity extends AppCompatActivity {
         editor.commit();
     }
 
+    public void onTimerButtonClick(View view) {
+
+        SharedPreferences.Editor editor = getSharedPreferences("MATH_FLASHCARDS", MODE_PRIVATE).edit();
+
+        boolean checked = ((RadioButton) view).isChecked();
+
+        switch(view.getId()) {
+            case R.id.thirtySecButton:
+                if (checked) {
+                    timerLength = 30;
+                }
+                break;
+            case R.id.fortyFiveSecButton:
+                if (checked) {
+                    timerLength = 45;
+                }
+                break;
+            case R.id.sixtySecButton:
+                if (checked) {
+                    timerLength = 60;
+                }
+                break;
+        }
+        editor.putInt("timerLength", timerLength);
+        editor.apply();
+        editor.commit();
+    }
+
     public void onBackPressed() {
-        finish();
+        finish();   //Close the app, do not go back to previous screen
 
     }
 }

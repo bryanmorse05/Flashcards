@@ -25,7 +25,7 @@ public class Game_Activity extends AppCompatActivity {
 
     boolean timerActive;
 
-    final int gameTimer = 10000;        //Game timer
+    //final int gameTimer = 10000;        //Game timer
 
     GameData gameData = new GameData(); //Class for the game
 
@@ -55,10 +55,11 @@ public class Game_Activity extends AppCompatActivity {
 
             Bundle extras = getIntent().getExtras();
             if (extras == null) {
-                Log.d("Difficulty Pass", "Failed");
+                Log.d("Game_Activity", "Intent data failed");
             } else {
                 gameData.setDifficulty(extras.getInt("difficulty"));       //Passing the difficulty level from the title screen
                 gameData.setGameType(extras.getInt("gameType"));
+                gameData.setTimerLength(extras.getInt("timerLength"));
             }
         }
         else {
@@ -90,7 +91,7 @@ public class Game_Activity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (timerActive == false) {
-            countDownTimer = new CountDownTimer(gameTimer, 100) {
+            countDownTimer = new CountDownTimer(gameData.getTimerLength() * 1000, 100) {
                 public void onTick(long millisUntilFinished) {
 
                     String timeLeft = String.format(Locale.getDefault(), "%02d", gameData.timerValue);
@@ -114,8 +115,9 @@ public class Game_Activity extends AppCompatActivity {
                     adb.setNegativeButton("Close", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialogInterface, int i) {
-                            Intent intent = new Intent(getApplicationContext(), TitleScreen_Activity.class);
-                            startActivity(intent);
+//                            Intent intent = new Intent(getApplicationContext(), TitleScreen_Activity.class);
+//                            startActivity(intent);
+                            finish();
                         }
                     });
                     //Show and create dialogue window

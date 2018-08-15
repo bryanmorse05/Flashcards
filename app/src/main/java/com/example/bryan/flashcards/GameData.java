@@ -13,6 +13,15 @@ public class GameData {
     int number1Min;             //The minimum number value for the equation
     int number1Max;             //The maximum number value for the equation
     int timerValue;             //The starting timer value
+    int timerLength;            //The length the of the timer
+
+    public int getTimerLength() {
+        return timerLength;
+    }
+
+    public void setTimerLength(int timerLength) {
+        this.timerLength = timerLength;
+    }
 
     public int getAnswerSelectionBatch() {
         return answerSelectionBatch;

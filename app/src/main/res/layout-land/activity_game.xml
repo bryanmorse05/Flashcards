@@ -55,20 +55,20 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/equation"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/equation"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="20dp"/>
 
     <Button
         android:id="@+id/answerChoice2"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:textSize="20sp"
-        app:layout_constraintBottom_toTopOf="@id/equation"
-        app:layout_constraintLeft_toRightOf="@id/equation"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="20dp"/>
 
     <Button
         android:id="@+id/answerChoice3"
@@ -77,8 +77,8 @@
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@id/equation"
-        app:layout_constraintTop_toBottomOf="@id/equation" />
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="20dp"/>
 
     <Button
         android:id="@+id/answerChoice4"
@@ -86,9 +86,9 @@
         android:layout_height="100dp"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toRightOf="@id/equation"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/equation" />
+        android:layout_marginRight="20dp"
+        android:layout_marginBottom="20dp"/>
 
     <Button
         android:id="@+id/nextQuestion"
@@ -97,7 +97,8 @@
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_marginBottom="15dp"/>
 
 
 </android.support.constraint.ConstraintLayout>
