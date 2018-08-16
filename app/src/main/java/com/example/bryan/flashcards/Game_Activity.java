@@ -94,13 +94,14 @@ public class Game_Activity extends AppCompatActivity {
             countDownTimer = new CountDownTimer(gameData.getTimerLength() * 1000, 100) {
                 public void onTick(long millisUntilFinished) {
 
-                    String timeLeft = String.format(Locale.getDefault(), "%02d", gameData.timerValue);
+                    String timeLeft = String.format(Locale.getDefault(), "%02d", gameData.timerValue + gameData.getTimerLength() * 10);
                     timer.setText(timeLeft);
-                    gameData.timerValue++;
+                    gameData.timerValue--;
                 }
 
                 public void onFinish() {
                     timerActive = false;
+                    countDownTimer.cancel();
                     AlertDialog.Builder adb = new AlertDialog.Builder(Game_Activity.this);
                     adb.setTitle("TIME'S UP");
                     adb.setMessage("Your score: " + String.valueOf(gameData.getScore()) +
@@ -369,10 +370,10 @@ public class Game_Activity extends AppCompatActivity {
     //Setting everything on the game board back to 0, or empty, or blank
     public void ResetGameBoard() {
         gameData.setTimerValue(0);
-//        gameData.setScore(0);
-//        gameData.setWrong(0);
-        equation.setText("Press here to begin");
-        timer.setText(String.valueOf(0));           //for debugging
+        gameData.setScore(0);
+        gameData.setWrong(0);
+        equation.setText("Press to begin");
+//        timer.setText(String.valueOf(0));           //for debugging
 //        playerScore.setText(String.valueOf(0));     //for debugging
         answerChoice1.setText("");
         answerChoice1.setVisibility(View.INVISIBLE);
