@@ -1,8 +1,6 @@
 package com.example.bryan.flashcards;
 
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,24 +19,28 @@ import java.util.Random;
 
 public class Game_Activity extends AppCompatActivity {
 
-    CountDownTimer countDownTimer;
+    CountDownTimer countDownTimer;      //Countown timer for gameplay
 
-    boolean timerActive;
-    int timePassed;
-
-    //final int gameTimer = 10000;        //Game timer
+    boolean timerActive;                //Is the timer going?
+    int timePassed;                     //How much time has passed before being paused?
 
     GameData gameData = new GameData(); //Class for the game
 
     TextView result;                    //Right or wrong
     TextView playerScore, timer;        //For debugging purposes, will remove
-    Button equation, answerChoice1, answerChoice2, answerChoice3, answerChoice4, nextQuestion;
+    Button equation;                    //The equation in the center, is button because it's how the game starts
+    Button answerChoice1;               //Top left selection
+    Button answerChoice2;               //Tpp right selection
+    Button answerChoice3;               //Bottom left selection
+    Button answerChoice4;               //Bottom right selection
+    Button nextQuestion;                //Skip to the next question button
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
+        //Widgets
         equation = findViewById(R.id.equation);
         result = findViewById(R.id.result);
         playerScore = findViewById(R.id.playerScore);
@@ -49,9 +51,12 @@ public class Game_Activity extends AppCompatActivity {
         answerChoice4 = findViewById(R.id.answerChoice4);
         nextQuestion = findViewById(R.id.nextQuestion);
 
+        //Setting up and enabling the back button in the support bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setTitle("Home");
 
+        //Loading game data from the title screen.  Difficulty, game type, and timer length
+        //If any of these are null, then it's not going to work
         if (savedInstanceState == null) {
 
             Bundle extras = getIntent().getExtras();
@@ -63,12 +68,9 @@ public class Game_Activity extends AppCompatActivity {
                 gameData.setTimerLength(extras.getInt("timerLength"));
             }
         }
-        else {
-            //Crashes when switching to landscape
-//            gameData.setDifficulty((Integer) savedInstanceState.getSerializable("difficulty"));
-//            gameData.setGameType((Integer) savedInstanceState.getSerializable("gameType"));
-        }
 
+        //After determining the game type, then the difficulty level is set up as well
+        //The difficulty method in the Gamedata class takes care of the number ranges
         if (gameData.gameType == 1) {
             gameData.additionDifficulty(gameData.difficulty);
         }
@@ -79,27 +81,43 @@ public class Game_Activity extends AppCompatActivity {
             gameData.multiplicationDifficulty(gameData.difficulty);
         }
 
-        timerActive = false;
+        timerActive = false;    //Timer is not currently active
 
+        //ResetGameBaord is called first because it clears the board
+        //The game is started from this method.
         ResetGameBoard();
 
     }
 
     public void Gameplay() {
 
-        equation.setClickable(false);
+        equation.setClickable(false);   //Disable the button so the user can't press it
 
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //Back button in support bar enabled
 
+        //Setting up the CountDownTimer.  Begin only if TimerActive is false
         if (timerActive == false) {
-            countDownTimer = new CountDownTimer(gameData.getTimerLength() * 1000, 100) {
+
+            //CountDownTimer is in milliseconds.  Calulation is timer length that the user set * 1000 so it's
+            //changed into seconds.  Second parameter is the interval it counts per tick
+            countDownTimer = new CountDownTimer((gameData.getTimerLength() * 1000) - (gameData.getTimeElapsed() * 1000), 100) {
+
+                //Ticks until length is reached
                 public void onTick(long millisUntilFinished) {
 
+                    //This is what is displayed.  Currently for debugging info, but may want to keep
+                    //Format %02d is to display two digits.  However, mine is 3, don't know why
+                    //TimerValue starts at 0, then adds the length of the timer
                     String timeLeft = String.format(Locale.getDefault(), "%02d", gameData.timerValue + gameData.getTimerLength() * 10);
-                    timer.setText(timeLeft);
-                    gameData.timerValue--;
+
+                    timer.setText(timeLeft);    //Display the amount of time left
+                    gameData.timerValue--;      //Subtract one of the timer every 100 ticks (this is NOT what's displayed)
+                    timePassed++;
+                    gameData.setTimeElapsed(timePassed);
+
                 }
 
+                //Once the timer is completed
                 public void onFinish() {
                     timerActive = false;
                     countDownTimer.cancel();
@@ -280,8 +298,8 @@ public class Game_Activity extends AppCompatActivity {
 
         //Logs
         Log.d("Equation:", String.valueOf(gameData.randomNumber1) + " " + String.valueOf(gameData.randomNumber2));
-        Log.d("Shuffled", myArray.get(0) + " " + myArray.get(1) + " " + myArray.get(2) + " " + myArray.get(3));
-        Log.d("AnswerShuffleValue", String.valueOf(gameData.answerSelectionBatch));
+        Log.d("Shuffled:", myArray.get(0) + " " + myArray.get(1) + " " + myArray.get(2) + " " + myArray.get(3));
+        Log.d("AnswerShuffleValue:", String.valueOf(gameData.answerSelectionBatch));
 
 
         answerChoice1.setText(myArray.get(0).toString());
@@ -392,6 +410,7 @@ public class Game_Activity extends AppCompatActivity {
         answerChoice4.setClickable(false);
         result.setText("");
         nextQuestion.setText("");
+        timer.setText("");
         nextQuestion.setVisibility(View.INVISIBLE);
         nextQuestion.setClickable(false);
 
@@ -431,14 +450,15 @@ public class Game_Activity extends AppCompatActivity {
     }
 
     public void onPause() {
-        countDownTimer.cancel();
-
+        if (timerActive == true) {
+            countDownTimer.cancel();
+        }
         super.onPause();
     }
 
     public void onResume() {
         if (timerActive == true) {
-            countDownTimer.start();
+            countDownTimer.onFinish();
         }
         super.onResume();
     }
