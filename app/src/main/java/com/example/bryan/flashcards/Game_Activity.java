@@ -393,6 +393,7 @@ public class Game_Activity extends AppCompatActivity {
         gameData.setWrong(0);
         gameData.setTimeElapsed(0);
         timePassed = 0;
+        timerActive = false;
         equation.setText("Press to begin");
 //        timer.setText(String.valueOf(0));           //for debugging
 //        playerScore.setText(String.valueOf(0));     //for debugging
@@ -457,8 +458,33 @@ public class Game_Activity extends AppCompatActivity {
     }
 
     public void onResume() {
+
         if (timerActive == true) {
-            countDownTimer.onFinish();
+//            countDownTimer.onFinish();
+
+            AlertDialog.Builder adb = new AlertDialog.Builder(Game_Activity.this);
+            adb.setTitle("GAME WAS INTERRUPTED\nand pausing to cheat");
+            adb.setMessage("Your score: " + String.valueOf(gameData.getScore()) +
+                    "\nIncorrect: " + String.valueOf(gameData.getWrong()));
+            adb.setCancelable(false);                                                           //Prevents window from closing when clicking outside
+            adb.setPositiveButton("Restart", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    ResetGameBoard();
+                }
+            });
+            adb.setNegativeButton("Close", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+//                            Intent intent = new Intent(getApplicationContext(), TitleScreen_Activity.class);
+//                            startActivity(intent);
+                    finish();
+                }
+            });
+            //Show and create dialogue window
+            adb.create();
+            adb.show();
+
         }
         super.onResume();
     }
