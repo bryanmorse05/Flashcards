@@ -14,6 +14,15 @@ public class GameData {
     int number1Max;             //The maximum number value for the equation
     int timerValue;             //The starting timer value
     int timerLength;            //The length the of the timer
+    int timeElapsed;            //The amount of time that has elapsed
+
+    public int getTimeElapsed() {
+        return timeElapsed;
+    }
+
+    public void setTimeElapsed(int timeElapsed) {
+        this.timeElapsed = timeElapsed;
+    }
 
     public int getTimerLength() {
         return timerLength;

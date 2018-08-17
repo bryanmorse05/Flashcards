@@ -24,6 +24,7 @@ public class Game_Activity extends AppCompatActivity {
     CountDownTimer countDownTimer;
 
     boolean timerActive;
+    int timePassed;
 
     //final int gameTimer = 10000;        //Game timer
 
@@ -372,6 +373,8 @@ public class Game_Activity extends AppCompatActivity {
         gameData.setTimerValue(0);
         gameData.setScore(0);
         gameData.setWrong(0);
+        gameData.setTimeElapsed(0);
+        timePassed = 0;
         equation.setText("Press to begin");
 //        timer.setText(String.valueOf(0));           //for debugging
 //        playerScore.setText(String.valueOf(0));     //for debugging
@@ -425,6 +428,19 @@ public class Game_Activity extends AppCompatActivity {
         }
         super.onBackPressed();
         finish();
+    }
+
+    public void onPause() {
+        countDownTimer.cancel();
+
+        super.onPause();
+    }
+
+    public void onResume() {
+        if (timerActive == true) {
+            countDownTimer.start();
+        }
+        super.onResume();
     }
 }
 
