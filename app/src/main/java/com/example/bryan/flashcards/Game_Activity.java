@@ -411,6 +411,7 @@ public class Game_Activity extends AppCompatActivity {
         timePassed = 0;
         timerActive = false;
         equationButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        equationButton.setPadding(0,0,0,0);
         equationButton.setText("Press to begin");
 //        timer.setText(String.valueOf(0));           //for debugging
 //        playerScore.setText(String.valueOf(0));     //for debugging

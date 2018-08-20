@@ -177,11 +177,11 @@ public class GameData {
 
         switch (difficulty) {
             case 1:
-                number1Min = 1;
+                number1Min = 2;
                 number1Max = 9;
                 break;
             case 2:
-                number1Min = 1;
+                number1Min = 2;
                 number1Max = 10;
                 break;
             case 3:
