@@ -201,7 +201,7 @@ public class Game_Activity extends AppCompatActivity {
                 break;
             case 3:
                 gameData.correctAnswer = gameData.multiplicationGame(gameData.randomNumber1, gameData.randomNumber2);
-                equationButton.setText(gameData.randomNumber2 + "\n * " + gameData.randomNumber1);            //Showing text of the equation
+                equationButton.setText(gameData.randomNumber2 + "\n X " + gameData.randomNumber1);            //Showing text of the equation
                 break;
         }
 
