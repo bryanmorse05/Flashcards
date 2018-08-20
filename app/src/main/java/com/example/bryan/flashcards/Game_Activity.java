@@ -1,6 +1,7 @@
 package com.example.bryan.flashcards;
 
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.CountDownTimer;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -28,7 +29,7 @@ public class Game_Activity extends AppCompatActivity {
 
     TextView result;                    //Right or wrong
     TextView playerScore, timer;        //For debugging purposes, will remove
-    Button equation;                    //The equation in the center, is button because it's how the game starts
+    Button equationButton;                    //The equation in the center, is button because it's how the game starts
     Button answerChoice1;               //Top left selection
     Button answerChoice2;               //Tpp right selection
     Button answerChoice3;               //Bottom left selection
@@ -41,7 +42,7 @@ public class Game_Activity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         //Widgets
-        equation = findViewById(R.id.equation);
+        equationButton = findViewById(R.id.equationButton);
         result = findViewById(R.id.result);
         playerScore = findViewById(R.id.playerScore);
         timer = findViewById(R.id.timer);
@@ -91,7 +92,7 @@ public class Game_Activity extends AppCompatActivity {
 
     public void Gameplay() {
 
-        equation.setClickable(false);   //Disable the button so the user can't press it
+        equationButton.setClickable(false);   //Disable the button so the user can't press it
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);  //Back button in support bar enabled
 
@@ -145,6 +146,10 @@ public class Game_Activity extends AppCompatActivity {
                     adb.show();
                 }
             }.start();
+
+            result.setBackgroundColor(Color.argb(200, 250, 181, 133));
+            result.setTextColor(Color.BLACK);
+            result.setText("GO!");
             timerActive = true;
         }
 
@@ -163,7 +168,7 @@ public class Game_Activity extends AppCompatActivity {
         switch (gameData.gameType) {
             case 1:
                 gameData.correctAnswer = gameData.additionGame(gameData.randomNumber1, gameData.randomNumber2);  //Determining the correct answer
-                equation.setText(gameData.randomNumber1 + " + " + gameData.randomNumber2);            //Showing text of the equation
+                equationButton.setText(gameData.randomNumber1 + "\n + " + gameData.randomNumber2);            //Showing text of the equation
                 break;
             case 2:
                 //Make sure the first number is larger than the second number
@@ -189,11 +194,11 @@ public class Game_Activity extends AppCompatActivity {
                     gameData.correctAnswer = gameData.randomNumber1 - gameData.randomNumber2;
                 }
 
-                equation.setText(gameData.randomNumber1 + " - " + gameData.randomNumber2);            //Showing text of the equation
+                equationButton.setText(gameData.randomNumber1 + "\n - " + gameData.randomNumber2);            //Showing text of the equation
                 break;
             case 3:
                 gameData.correctAnswer = gameData.multiplicationGame(gameData.randomNumber1, gameData.randomNumber2);
-                equation.setText(gameData.randomNumber1 + " * " + gameData.randomNumber2);            //Showing text of the equation
+                equationButton.setText(gameData.randomNumber2 + "\n * " + gameData.randomNumber1);            //Showing text of the equation
                 break;
         }
 
@@ -311,11 +316,13 @@ public class Game_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (myArray.get(0) == gameData.correctAnswer) {
+                    result.setTextColor(Color.rgb(5, 122, 48));
                     result.setText("CORRECT");
                     gameData.score += 1;
 //                    playerScore.setText(String.valueOf(gameData.score));
                     Gameplay();
                 } else {
+                    result.setTextColor(Color.RED);
                     result.setText("WRONG");
                     gameData.wrong += 1;
                     Gameplay();
@@ -327,11 +334,13 @@ public class Game_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (myArray.get(1) == gameData.correctAnswer) {
+                    result.setTextColor(Color.rgb(5, 122, 48));
                     result.setText("CORRECT");
                     gameData.score += 1;
 //                    playerScore.setText(String.valueOf(gameData.score));
                     Gameplay();
                 } else {
+                    result.setTextColor(Color.RED);
                     result.setText("WRONG");
                     gameData.wrong += 1;
                     Gameplay();
@@ -343,11 +352,13 @@ public class Game_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (myArray.get(2) == gameData.correctAnswer) {
+                    result.setTextColor(Color.rgb(5, 122, 48));
                     result.setText("CORRECT");
                     gameData.score += 1;
 //                    playerScore.setText(String.valueOf(gameData.score));
                     Gameplay();
                 } else {
+                    result.setTextColor(Color.RED);
                     result.setText("WRONG");
                     gameData.wrong += 1;
                     Gameplay();
@@ -359,11 +370,13 @@ public class Game_Activity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (myArray.get(3) == gameData.correctAnswer) {
+                    result.setTextColor(Color.rgb(5, 122, 48));
                     result.setText("CORRECT");
                     gameData.score += 1;
 //                    playerScore.setText(String.valueOf(gameData.score));
                     Gameplay();
                 } else {
+                    result.setTextColor(Color.RED);
                     result.setText("WRONG");
                     gameData.wrong += 1;
                     Gameplay();
@@ -394,7 +407,8 @@ public class Game_Activity extends AppCompatActivity {
         gameData.setTimeElapsed(0);
         timePassed = 0;
         timerActive = false;
-        equation.setText("Press to begin");
+        equationButton.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+        equationButton.setText("Press to begin");
 //        timer.setText(String.valueOf(0));           //for debugging
 //        playerScore.setText(String.valueOf(0));     //for debugging
         answerChoice1.setText("");
@@ -410,12 +424,13 @@ public class Game_Activity extends AppCompatActivity {
         answerChoice4.setVisibility(View.INVISIBLE);
         answerChoice4.setClickable(false);
         result.setText("");
+        result.setBackgroundColor(Color.TRANSPARENT);
         nextQuestion.setText("");
         timer.setText("");
         nextQuestion.setVisibility(View.INVISIBLE);
         nextQuestion.setClickable(false);
 
-        equation.setOnClickListener(new View.OnClickListener() {
+        equationButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 nextQuestion.setText("SKIP");
@@ -429,6 +444,24 @@ public class Game_Activity extends AppCompatActivity {
                 answerChoice4.setClickable(true);
                 nextQuestion.setVisibility(View.VISIBLE);
                 nextQuestion.setClickable(true);
+
+                equationButton.setTextAlignment(View.TEXT_ALIGNMENT_TEXT_END);
+                //Setting the padding based on the difficulty
+                switch (gameData.difficulty) {
+                    case 1:
+                        equationButton.setPadding(0,0,160,0);
+                        break;
+                    case 2:
+                        equationButton.setPadding(0,0,145,0);
+                        break;
+                    case 3:
+                        equationButton.setPadding(0,0,100,0);
+                        if (gameData.gameType == 3) {
+                            equationButton.setPadding(0,0,145,0);   //Since multiplication only used two-digit numbers, they can be closer
+                        }
+                        break;
+                }
+
                 Gameplay();
             }
         });
@@ -463,7 +496,7 @@ public class Game_Activity extends AppCompatActivity {
 //            countDownTimer.onFinish();
 
             AlertDialog.Builder adb = new AlertDialog.Builder(Game_Activity.this);
-            adb.setTitle("GAME WAS INTERRUPTED\nand pausing to cheat");
+            adb.setTitle("GAME WAS INTERRUPTED\n(also no pausing to cheat)");
             adb.setMessage("Your score: " + String.valueOf(gameData.getScore()) +
                     "\nIncorrect: " + String.valueOf(gameData.getWrong()));
             adb.setCancelable(false);                                                           //Prevents window from closing when clicking outside
