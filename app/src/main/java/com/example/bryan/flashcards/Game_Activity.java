@@ -54,7 +54,7 @@ public class Game_Activity extends AppCompatActivity {
 
         //Setting up and enabling the back button in the support bar
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setTitle("Home");
+
 
         //Loading game data from the title screen.  Difficulty, game type, and timer length
         //If any of these are null, then it's not going to work
@@ -74,12 +74,15 @@ public class Game_Activity extends AppCompatActivity {
         //The difficulty method in the Gamedata class takes care of the number ranges
         if (gameData.gameType == 1) {
             gameData.additionDifficulty(gameData.difficulty);
+            getSupportActionBar().setTitle("Addition");
         }
         else if (gameData.gameType == 2) {
             gameData.subtractionDifficulty(gameData.difficulty);
+            getSupportActionBar().setTitle("Subtraction");
         }
         else if (gameData.gameType == 3) {
             gameData.multiplicationDifficulty(gameData.difficulty);
+            getSupportActionBar().setTitle("Multiplication");
         }
 
         timerActive = false;    //Timer is not currently active
