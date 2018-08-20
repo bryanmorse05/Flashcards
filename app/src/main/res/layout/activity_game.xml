@@ -13,6 +13,13 @@
 
     </android.support.v7.widget.Toolbar>
 
+    <ImageView
+        android:id="@+id/titleScreenBackgroundImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/blue_raindrops"
+        android:scaleType="fitXY" />
+
     <Button
         android:id="@+id/equation"
         android:layout_width="150dp"
@@ -23,7 +30,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/equationbutton"
+        android:textColor="#F7FFED"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
     <TextView
         android:id="@+id/result"
@@ -58,7 +71,13 @@
         app:layout_constraintBottom_toTopOf="@id/equation"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/equation"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/title_screen_button_shapes"
+        android:textColor="#F7FFED"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
     <Button
         android:id="@+id/answerChoice2"
@@ -68,7 +87,13 @@
         app:layout_constraintBottom_toTopOf="@id/equation"
         app:layout_constraintLeft_toRightOf="@id/equation"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/title_screen_button_shapes"
+        android:textColor="#F7FFED"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
     <Button
         android:id="@+id/answerChoice3"
@@ -78,7 +103,13 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@id/equation"
-        app:layout_constraintTop_toBottomOf="@id/equation" />
+        app:layout_constraintTop_toBottomOf="@id/equation"
+        android:background="@drawable/title_screen_button_shapes"
+        android:textColor="#F7FFED"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
     <Button
         android:id="@+id/answerChoice4"
@@ -88,16 +119,28 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toRightOf="@id/equation"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/equation" />
+        app:layout_constraintTop_toBottomOf="@id/equation"
+        android:background="@drawable/title_screen_button_shapes"
+        android:textColor="#F7FFED"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
     <Button
         android:id="@+id/nextQuestion"
-        android:layout_width="wrap_content"
+        android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:textSize="15sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        android:background="@drawable/title_screen_button_shapes"
+        android:textColor="#F7FFED"
+        android:shadowColor="#A8A8A8"
+        android:shadowDx="0"
+        android:shadowDy="0"
+        android:shadowRadius="5"/>
 
 
 </android.support.constraint.ConstraintLayout>
